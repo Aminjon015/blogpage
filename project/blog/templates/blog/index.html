@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block main %}
+    {% include 'blog/components/_categories.html' %}
+    <div class="d-flex justify-content-between rounded-bottom m-2">
+        {% include 'blog/components/_sidebar.html' %}
+        <div class="col-9 ms-4">
+            <div class="d-flex">
+                <div class="row row-cols-1 row-cols-md-3 g-4 m-1">
+                    {% for article in articles %}
+                        <div class="col">
+                            {% include 'blog/components/_card.html' %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% if is_paginated %}
+        <nav aria-label="Page navigation example" style="margin-top: 100px;">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+                    <a class="page-link text-light"
+                       href="{% if page_obj.has_previous %} {% url 'paginator' page_obj.previous_page_number %} {% else %} # {% endif %}"
+                       tabindex="-1" aria-disabled="true"  style="background-color: indianred">
+                        Предыдущая</a>
+                </li>
+                {% for page in paginator.page_range %}
+                    <li class="page-item">
+                        <a class="page-link text-light" href="{% url 'paginator' page %}" style="background-color: #5e76bf">
+                            {{ page }}
+                        </a>
+                    </li>
+                {% endfor %}
+                <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+                    <a class="page-link text-light"
+                       href="{% if page_obj.has_next %} {% url 'paginator' page_obj.next_page_number %} {% else %} # {% endif %}"  style="background-color: indianred">
+                        Следущая
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+
+{% endblock main %}

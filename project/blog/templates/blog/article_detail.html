@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block main %}
+    <div class="d-flex justify-content-between">
+        <div class="col-9 ">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between bg-secondary">
+                    <div>
+                        <a href="" class="h3 text-dark"
+                           style="text-decoration:none">Категория: {{ article.category }}</a>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        {% if article.author == request.user %}
+                            <a href="{% url 'update' article.pk %}" class="btn btn-warning mx-1">Изменить</a>
+                            <a href="{% url 'delete' article.pk %}" class="btn btn-danger mx-1">Удалить</a>
+                        {% endif %}
+                        <a href="{% url 'index' %}" class="btn btn-success mx-1">Назад</a>
+                    </div>
+                </div>
+                <div class="card-body bg-secondary">
+                    {% if article.photo %}
+                        <img src="{{ article.photo.url }}"
+                             class="card-img-top rounded-start"
+                             style="box-shadow: 4px 4px 5px yellow; width ='400px'; height:400px;" alt="...">
+                    {% else %}
+                        <img src="https://wallpaperboat.com/wp-content/uploads/2020/04/minimalist-4k-wallpaper-1920x1080-14.jpg"
+                             class="card-img-top rounded-start"
+                             style="box-shadow: 4px 4px 5px yellow; width='400px'; height:400px;" alt="...">
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between py-4">
+                        <div class="d-flex justify-content-between">
+                            <img src="{{ article.author.profile.get_photo }}"
+                                 class="rounded-pill"
+                                 height="50" width="50" alt="">
+                            <h4 class="p-2">Автор:
+                                <a href="{% url 'profile' article.author.pk %}" class="text-dark"
+                                   style="text-decoration: none">
+                                    {{ article.author }}
+                                </a>
+                            </h4>
+                        </div>
+                        <p>{{ article.created_at }}</p>
+                    </div>
+                    <h2>{{ article.title }}</h2>
+                    <p>{{ article.content|linebreaks }}</p>
+
+                    <span> Просмотры: <i class="bi bi-eye" style="color:#E0115F;"></i> {{ article.views }} </span>
+                </div>
+            </div>
+
+            <div class="card mt-4"
+                 style="width: 100%; border: none; background: #E8E8E8; padding: 5px 10px; border-radius: 5px 5px 0px 0px; border-bottom: 2px solid #016BA8; transition: all 0.5s;margin-top: 15px;">
+                {% if request.user.is_authenticated %}
+                    <form action="{% url 'save_comment' article.pk %}" method="post">
+                        {% csrf_token %}
+
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="btn btn-dark">
+                            Оставить комментарий
+                        </button>
+                    </form>
+                {% else %}
+                    <h5 class="d-flex justify-content-center"> Чтобы оставить комментарый--<a data-bs-toggle="modal"
+                                                                                              href="#exampleModalToggle">
+                        Войдите
+                        в аккаунте </a></h5>
+                    {% include 'blog/login.html' %}
+                {% endif %}
+            </div>
+            {% for comment in comments %}
+                <div class="card mt-4 " style="position: relative;  max-width:border-box;  height: auto;  margin: 20px 10px;    background-color: #DADADA;  border-radius: 3px;  border: 5px solid #ccc;">
+
+                    <h5 class="mx-3 mt-3"> <img src="{{ user.profile.get_photo }}" alt="" class="rounded-circle" width="40" height="40">
+                        {{ comment.user.username }}
+                    </h5>
+                    <p class="small mx-3 mt-3 d-flex justify-content-end" >{{ comment.created_at }}</p>
+                    <p class="mx-3 ">{{ comment.text }}</p>
+                </div>
+
+
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="col-3">
+
+    </div>
+
+{% endblock main %}

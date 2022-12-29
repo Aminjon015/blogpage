@@ -1,0 +1,10 @@
+{% load blog_tags %}
+<div class="nav-scroller py-1 rounded mt-3 p-5"
+     style="background-color:#1e1e1e; font-family: playfair; font-size:18px; color:#DFFF00; box-shadow: 6px 6px 5px yellow;">
+    <nav class="nav d-flex justify-content-between">
+        {% get_categories as categories %}
+        {% for category in categories %}
+        <a class="p-2 navbar-brand" href="{{ category.get_absolute_url }}">{{category}}</a>
+        {% endfor %}
+    </nav>
+</div>

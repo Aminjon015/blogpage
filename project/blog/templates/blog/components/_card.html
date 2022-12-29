@@ -1,0 +1,27 @@
+<a href="{{ article.get_absolute_url }}" style="text-decoration: none;">
+    <div class="card shadow-lg rounded bg-dark " >
+        {% if article.photo %}
+            <img src="{{ article.photo.url }}"
+                 class="bd-placeholder-img" width="100%" height="100%" style="box-shadow: 4px 4px 5px yellow;" alt="...">
+        {% else %}
+            <img src="https://wallpaperboat.com/wp-content/uploads/2020/04/minimalist-4k-wallpaper-1920x1080-14.jpg"
+                 class="card-img-top rounded-start"  width="100%" height="100%" style="box-shadow: 4px 4px 5px yellow;" alt="...">
+        {% endif %}
+        <div class="card-body rounded-bottom " width="100%" height="100%"
+             style="box-shadow: 4px 4px 5px yellow; background-color:#1e1e1e;">
+            <div class="d-flex justify-content-between">
+                                <span class="small" style="font-family:poppins;
+                                font-size:20px;
+                                font-style:bold;
+                                color:#FF4433;">{{ article.category }}</span>
+                <span class="small text-secondary">{{ article.created_at }}</span>
+
+            </div>
+            <!--                        <h5 class="card-title text-primary text-opacity-25">{{ article.title }}</h5>-->
+            <p class="card-text text-secondary">{{ article.content|truncatechars:50 }}</p>
+            <p class="card-text text-light fw-bold ">Просмотри: <i class="bi bi-eye"
+                                                                   style="color:#E0115F; height:10rem"></i>
+                {{ article.views }}</p>
+        </div>
+    </div>
+</a>

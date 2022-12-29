@@ -1,0 +1,74 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark rounded m-4"
+     style="box-shadow: 4px 4px 5px yellow; margin-top: 1em;">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="https://raw.githubusercontent.com/Aminjon015/ShopTelegramBot/main/gaming.svg"
+                 width="50" alt="" class="d-inline-block align-middle mr-2">
+            <span class="text-uppercase font-weight-bold" style="font-family: -apple-system; color: lightcoral; ">Gaming ACE</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Главная <i
+                            class="bi bi-house-heart text-info"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'about_site' %}">О сайте <i
+                            class="bi bi-easel3-fill text-warning"></i></a>
+                </li>
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link ">О разработчике</a>-->
+                <!--                </li>-->
+            </ul>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <form class="d-flex" role="search" method="get" action="{% url 'search' %}">
+                        <input name="q" class="form-control me-3 text-warning bg-dark border border-dark pl-4"
+                               style="box-shadow: 2px 2px 5px yellow;" type="search"
+                               placeholder="Поиск" aria-label="Поиск">
+                        <button class="btn btn-outline-danger" style="box-shadow: 2px 2px 5px red;" type="submit"><i
+                                class="bi bi-search-heart text-danger"></i></button>
+
+                    </form>
+                    {% if not request.user.is_authenticated %}
+                        </li>
+                        <li class="nav-item mx-4">
+                            <a class="btn btn-danger" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Войти</a>
+                            {% include 'blog/login.html' %}
+                        </li>
+                    {% else %}
+                        <li class="nav-item dropdown">
+                            <div class="dropdown">
+                                <a href="#"
+                                   class="d-flex align-items-center text-white text-decoration-none dropdown-toggle ms-3 mt-1"
+                                   id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="https://lh3.googleusercontent.com/a/ALm5wu07xq1WcTy2wKNUBSW0R9jGWkozU6161urF8kGbug=s288-p-rw-no"
+                                         alt="" width="32" height="32"
+                                         class="rounded-circle me-2">
+                                    <strong>Kh.Aminjon</strong>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow mt-2 ms-3"
+                                    aria-labelledby="dropdownUser1">
+                                    <li><a class="dropdown-item" href="{% url 'add_article' %}">Добавить статью</a></li>
+                                    <li><a class="dropdown-item" href="#">Настройки</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'profile' request.user.pk %}">Профил</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Выход</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
